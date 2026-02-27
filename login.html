@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GYMA - Authentication</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #0a0a0a;
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+            overflow: hidden;
+        }
+        
+        .container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        /* 3D Model Background Container */
+        .spline-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none; /* Crucial: Let clicks through to form */
+        }
+        
+        /* Make sure the viewer itself still works for dragging */
+        spline-viewer {
+            pointer-events: auto;
+        }
+
+        /* Navigation */
+        nav {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 2rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-sizing: border-box;
+            z-index: 10;
+            pointer-events: none; /* Let clicks pass through if needed */
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: white;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            pointer-events: auto; /* Make click work */
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: #00ff41;
+        }
+
+        /* Auth Form Container */
+        .auth-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 100; /* Ensure high above spline */
+            pointer-events: auto; /* The form is clickable */
+            width: 100%;
+            max-width: 400px;
+            background: rgba(8, 8, 8, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 3rem;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Toggle switch for login/signup */
+        .form-toggle {
+            display: flex;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 100px;
+            padding: 0.3rem;
+            margin-bottom: 2rem;
+            width: 100%;
+            position: relative;
+        }
+
+        .form-toggle-btn {
+            flex: 1;
+            padding: 0.8rem 0;
+            text-align: center;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #888;
+            cursor: pointer;
+            z-index: 1;
+            transition: color 0.3s ease;
+        }
+
+        .form-toggle-btn.active {
+            color: #ffffff;
+        }
+
+        .form-toggle-slider {
+            position: absolute;
+            top: 0.3rem;
+            left: 0.3rem;
+            width: calc(50% - 0.3rem);
+            height: calc(100% - 0.6rem);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 100px;
+            z-index: 0;
+            transition: transform 0.3s ease;
+        }
+
+        .form-wrapper {
+            width: 100%;
+        }
+
+        /* Forms (Log in vs Sign up) */
+        .auth-form {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            transition: opacity 0.3s ease;
+        }
+
+        .auth-form.hidden {
+            display: none;
+            opacity: 0;
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin: 0 0 1.5rem 0;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+            width: 100%;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.85rem;
+            color: #a0a0a0;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: white;
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .input-group input:focus {
+            border-color: #00ff41;
+            box-shadow: 0 0 10px rgba(0, 255, 65, 0.1);
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1.2rem;
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: #0a0a0a;
+            background: #00ff41;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.2);
+            margin-top: 1rem;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px rgba(0, 255, 65, 0.4);
+            background: #1aff57;
+        }
+
+        .fine-print {
+            text-align: center;
+            font-size: 0.8rem;
+            color: #888;
+            margin-top: 1.5rem;
+        }
+        
+        .fine-print a {
+            color: #00ff41;
+            text-decoration: none;
+        }
+
+        .fine-print a:hover {
+            text-decoration: underline;
+        }
+
+        /* Loading state to hide the spline logo briefly if desirable */
+        spline-viewer {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Hide the Spline Logo watermark */
+        .spline-watermark, #spline-viewer-logo {
+            display: none !important;
+        }
+
+        @media (max-width: 768px) {
+            nav { padding: 1.5rem; }
+            .auth-container {
+                padding: 2rem;
+                width: 90%;
+            }
+        }
+    </style>
+    <!-- Import Spline Viewer Web Component -->
+    <script type="module" src="https://unpkg.com/@splinetool/viewer@1.0.51/build/spline-viewer.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <nav>
+            <a href="index.html" class="logo">GYMA<span>.</span></a>
+        </nav>
+
+        <!-- 3D Spline Robot Model Background (New version) -->
+        <div class="spline-container">
+            <!-- Spline URL provided by user -->
+            <spline-viewer url="https://prod.spline.design/xrmYlC-qt9g8AVRz/scene.splinecode"></spline-viewer>
+        </div>
+
+        <!-- Authentication Form Overlay -->
+        <div class="auth-container">
+            
+            <div class="form-toggle">
+                <div class="form-toggle-slider" id="toggle-slider"></div>
+                <div class="form-toggle-btn active" id="btn-login" onclick="switchForm('login')">Log In</div>
+                <div class="form-toggle-btn" id="btn-signup" onclick="switchForm('signup')">Sign Up</div>
+            </div>
+
+            <div class="form-wrapper">
+                <!-- Login Form -->
+                <form id="form-login" class="auth-form">
+                    <h2>Welcome Back</h2>
+                    <div class="input-group">
+                        <label for="login-email">Email Address</label>
+                        <input type="email" id="login-email" placeholder="you@example.com" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="login-password">Password</label>
+                        <input type="password" id="login-password" placeholder="••••••••" required>
+                    </div>
+                    <button type="submit" id="login-submit" class="submit-btn">Log In</button>
+                    <p class="fine-print"><a href="#">Forgot your password?</a></p>
+                </form>
+
+                <!-- Signup Form -->
+                <form id="form-signup" class="auth-form hidden">
+                    <h2>Create Account</h2>
+                    <div class="input-group">
+                        <label for="signup-name">Full Name</label>
+                        <input type="text" id="signup-name" placeholder="John Doe" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="signup-email">Email Address</label>
+                        <input type="email" id="signup-email" placeholder="you@example.com" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="signup-password">Password</label>
+                        <input type="password" id="signup-password" placeholder="••••••••" required>
+                    </div>
+                    <button type="submit" id="signup-submit" class="submit-btn">Sign Up</button>
+                    <p class="fine-print">By signing up, you agree to our <a href="#">Terms</a> and <a href="#">Privacy Policy</a>.</p>
+                </form>
+            </div>
+            
+        </div>
+    </div>
+    
+        <!-- Import Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        // --- 1. Initialize Supabase ---
+        const SUPABASE_URL = 'https://mtincfljokyrodwsgphz.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im10aW5jZmxqb2t5cm9kd3NncGh6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE4Njk3NDMsImV4cCI6MjA4NzQ0NTc0M30.zVGhhQl3Lc81aiIJfNM_fhGyz4fpbPOwqHBa_O1U5us';
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        // --- 2. UI Toggling Logic ---
+        function switchForm(formName) {
+            const loginForm = document.getElementById('form-login');
+            const signupForm = document.getElementById('form-signup');
+            const btnLogin = document.getElementById('btn-login');
+            const btnSignup = document.getElementById('btn-signup');
+            const slider = document.getElementById('toggle-slider');
+
+            if (formName === 'login') {
+                loginForm.classList.remove('hidden');
+                signupForm.classList.add('hidden');
+                btnLogin.classList.add('active');
+                btnSignup.classList.remove('active');
+                slider.style.transform = 'translateX(0)';
+            } else {
+                loginForm.classList.add('hidden');
+                signupForm.classList.remove('hidden');
+                btnLogin.classList.remove('active');
+                btnSignup.classList.add('active');
+                slider.style.transform = 'translateX(100%)';
+            }
+        }
+        
+        // Check URL hash to pre-select sign up vs login if linked
+        window.addEventListener('DOMContentLoaded', async () => {
+            if (window.location.hash === '#signup') {
+                switchForm('signup');
+            }
+
+            // ONLY auto-redirect if arriving from an email confirmation link
+            // Supabase adds #access_token=... to the URL after email confirmation
+            if (window.location.hash && window.location.hash.includes('access_token')) {
+                const { data: { session } } = await supabaseClient.auth.getSession();
+                if (session) {
+                    window.location.href = 'app.html';
+                }
+            }
+        });
+
+        // --- 3. Authentication Handlers ---
+
+        // Helper to handle loading state
+        function setLoading(btnId, isLoading, originalText) {
+            const btn = document.getElementById(btnId);
+            if (isLoading) {
+                btn.disabled = true;
+                btn.textContent = 'Processing...';
+                btn.style.opacity = '0.7';
+            } else {
+                btn.disabled = false;
+                btn.textContent = originalText;
+                btn.style.opacity = '1';
+            }
+        }
+
+        // Handle Signup
+        document.getElementById('form-signup').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+            const name = document.getElementById('signup-name').value;
+            
+            setLoading('signup-submit', true, 'Sign Up');
+
+            try {
+                // Register user with Supabase
+                const { data, error } = await supabaseClient.auth.signUp({
+                    email: email,
+                    password: password,
+                    options: {
+                        data: {
+                            full_name: name
+                        }
+                    }
+                });
+
+                if (error) throw error;
+
+                // Success! Let's check what Supabase says we should do next
+                if (data.user && data.user.identities && data.user.identities.length === 0) {
+                    alert("This email is already taken. Please try logging in.");
+                } else if (data.session) {
+                    // Auto-logged in! Proceed to app
+                    alert("Registration successful! Welcome to GYMA!");
+                    window.location.href = 'app.html';
+                } else {
+                    // Email verification required
+                    alert("Registration successful! Please check your email inbox to verify your account before logging in.");
+                    switchForm('login');
+                }
+
+            } catch (error) {
+                alert(`Sign Up Error: ${error.message}`);
+            } finally {
+                setLoading('signup-submit', false, 'Sign Up');
+            }
+        });
+
+        // Handle Login
+        document.getElementById('form-login').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            
+            setLoading('login-submit', true, 'Log In');
+
+            try {
+                const { data, error } = await supabaseClient.auth.signInWithPassword({
+                    email: email,
+                    password: password,
+                });
+
+                if (error) throw error;
+                
+                // Success! Proced to app
+                alert("Login successful!");
+                window.location.href = 'app.html';
+
+            } catch (error) {
+                alert(`Log In Error: ${error.message}`);
+            } finally {
+                setLoading('login-submit', false, 'Log In');
+            }
+        });
+        const clearLogo = setInterval(() => {
+    const splineViewer = document.querySelector('spline-viewer');
+
+    if (!splineViewer) return;
+
+    const shadowRoot = splineViewer.shadowRoot;
+    if (shadowRoot) {
+        const logo = shadowRoot.querySelector('#logo');
+        if (logo) {
+            logo.remove();
+            clearInterval(clearLogo);
+        }
+    }
+}, 100);
+    </script>
+</body>
+</html>

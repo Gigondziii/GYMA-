@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GYMA | Geometric Intelligent Movement Analysis</title>
+    <meta
+      name="description"
+      content="Real-time biomechanical feedback engine for precision movement analysis and alignment correction"
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- Navigation Header -->
+    <nav class="nav-header">
+      <div class="nav-content">
+        <h1 class="logo">GYMA<span class="accent">.</span></h1>
+        <div class="status-bar">
+          <span class="status-label">System Status:</span>
+          <div class="status-indicator" id="statusIndicator">
+            <div class="pulse-dot"></div>
+            <span id="statusText">Initializing</span>
+          </div>
+          <div class="divider"></div>
+          <span class="user-badge">Guest User</span>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Workspace -->
+    <main class="workspace">
+      <!-- Left Panel: Stability Metrics -->
+      <aside class="panel left-panel">
+        <div class="panel-section">
+          <h3 class="panel-title">Spine Alignment</h3>
+          <div class="metric-display">
+            <div class="metric-value" id="alignmentValue">--</div>
+            <div class="metric-unit">%</div>
+          </div>
+          <div class="progress-ring" id="alignmentRing">
+            <svg viewBox="0 0 120 120">
+              <circle class="ring-bg" cx="60" cy="60" r="54"></circle>
+              <circle
+                class="ring-progress"
+                cx="60"
+                cy="60"
+                r="54"
+                id="progressCircle"
+              ></circle>
+            </svg>
+            <div class="ring-center"><span id="ringPercent">0</span>%</div>
+          </div>
+        </div>
+
+        <div class="panel-section">
+          <h3 class="panel-title">Stability</h3>
+          <div class="metric-row">
+            <span class="metric-label">Tilt</span>
+            <span class="metric-value-small" id="tiltValue">0.0°</span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-label">Calibration</span>
+            <span class="metric-value-small" id="calibrationValue">0%</span>
+          </div>
+          <div class="calibration-bar">
+            <div class="calibration-progress" id="calibrationProgress"></div>
+          </div>
+        </div>
+
+        <div class="panel-section">
+          <h3 class="panel-title">Status</h3>
+          <div class="status-messages" id="statusMessages">
+            <div class="status-message info">
+              <div class="message-icon">●</div>
+              <div class="message-text">Align spine with center line</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-section">
+          <h3 class="panel-title">Performance</h3>
+          <div class="metric-display">
+            <div class="metric-value" id="repCount">0</div>
+            <div class="metric-unit">REPS</div>
+          </div>
+          <div class="metric-row">
+             <span class="metric-label">Velocity</span>
+             <span class="metric-value-small" id="velocityValue">0.0</span>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Center: Camera Feed -->
+      <div class="feed-container">
+        <div class="feed-wrapper">
+          <video id="webcam" autoplay playsinline></video>
+          <canvas id="outputCanvas"></canvas>
+
+          <!-- Center Guide Line -->
+          <div class="center-guide"></div>
+
+          <!-- Warning Overlay -->
+          <div class="warning-overlay" id="warningOverlay">
+            <div class="warning-content">
+              <div class="warning-icon">⚠</div>
+              <h2 class="warning-title">ALIGN BODY</h2>
+              <p class="warning-text" id="warningText">Tilt detected</p>
+              <div class="warning-arrow" id="warningArrow">→</div>
+            </div>
+          </div>
+
+          <!-- Speed Warning Overlay -->
+          <div class="warning-overlay speed-warning" id="speedWarningOverlay">
+            <div class="warning-content">
+              <div class="warning-icon">⚡</div>
+              <h2 class="warning-title">TOO FAST</h2>
+              <p class="warning-text">Slow down to prevent injury</p>
+            </div>
+          </div>
+
+          <!-- Shoulder Warning Overlay -->
+          <div class="warning-overlay shoulder-warning" id="shoulderWarningOverlay">
+            <div class="warning-content">
+              <div class="warning-icon">⬇</div>
+              <h2 class="warning-title">SHOULDERS DOWN</h2>
+              <p class="warning-text">Keep shoulders relaxed</p>
+            </div>
+          </div>
+
+          <!-- Calibration Overlay -->
+          <div class="calibration-overlay" id="calibrationOverlay">
+            <div class="calibration-content">
+              <div class="calibration-spinner"></div>
+              <p class="calibration-text">Calibrating System...</p>
+              <div class="calibration-bar-overlay">
+                <div class="calibration-bar-fill" id="calibrationBarFill"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Camera Controls -->
+        <div class="feed-controls">
+          <button class="control-btn" id="startBtn">
+            <span class="btn-icon">▶</span>
+            Start Analysis
+          </button>
+          <button class="control-btn secondary" id="resetBtn">
+            <span class="btn-icon">↻</span>
+            Reset Calibration
+          </button>
+          <button class="control-btn secondary" id="cameraToggleBtn">
+            <span class="btn-icon">📷</span>
+            Switch Cam
+          </button>
+        </div>
+      </div>
+
+      <!-- Right Panel: Kinematics -->
+      <aside class="panel right-panel">
+        <div class="panel-section">
+          <h3 class="panel-title">Kinematics</h3>
+          <div class="angle-list">
+            <div class="angle-item">
+              <span class="angle-label">L_ELBOW</span>
+              <span class="angle-value" id="leftElbow">--°</span>
+            </div>
+            <div class="angle-item">
+              <span class="angle-label">R_ELBOW</span>
+              <span class="angle-value" id="rightElbow">--°</span>
+            </div>
+            <div class="angle-divider"></div>
+            <div class="angle-item">
+              <span class="angle-label">L_ARMPIT</span>
+              <span class="angle-value" id="leftArmpit">--°</span>
+            </div>
+            <div class="angle-item">
+              <span class="angle-label">R_ARMPIT</span>
+              <span class="angle-value" id="rightArmpit">--°</span>
+            </div>
+            <div class="angle-divider"></div>
+            <div class="angle-item highlight">
+              <span class="angle-label">BACK</span>
+              <span class="angle-value" id="backAngle">--°</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-section">
+          <h3 class="panel-title">Guide</h3>
+          <p class="guide-text">
+            Align your spine with the central axis. Maintain vertical stability
+            for 40 frames to calibrate the system.
+          </p>
+          <div class="guide-steps">
+            <div class="guide-step">
+              <div class="step-number">1</div>
+              <div class="step-text">Stand centered</div>
+            </div>
+            <div class="guide-step">
+              <div class="step-number">2</div>
+              <div class="step-text">Keep spine straight</div>
+            </div>
+            <div class="guide-step">
+              <div class="step-number">3</div>
+              <div class="step-text">Hold position</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-section">
+          <h3 class="panel-title">Specifications</h3>
+          <div class="specs-list">
+            <div class="spec-item">
+              <span class="spec-label">Model</span>
+              <span class="spec-value">Heavy Task</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Tracking</span>
+              <span class="spec-value">33 Points</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Precision</span>
+              <span class="spec-value">Medical Grade</span>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-content">
+        <span class="footer-text"
+          >GYMA v1.0 | Geometric Intelligent Movement Analysis</span
+        >
+        <span class="footer-text"
+          >Real-time Bio-Mechanical Feedback Engine</span
+        >
+      </div>
+    </footer>
+
+    <!-- App Scripts (ES Module) -->
+    <script type="module" src="app.js"></script>
+  </body>
+</html>
