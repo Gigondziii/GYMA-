@@ -719,6 +719,16 @@ body::before {
   box-shadow: 0 10px 30px rgba(0, 255, 65, 0.3);
 }
 
+.control-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.control-btn:focus-visible {
+  outline: 2px solid var(--success-green);
+  outline-offset: 2px;
+}
+
 .control-btn.secondary {
   background: var(--glass-bg);
   color: var(--white-dim);
