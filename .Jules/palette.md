@@ -1,0 +1,3 @@
+## 2024-05-11 - Interactive elements lacking keyboard and screen reader accessibility
+**Learning:** Found a pattern where `div` elements were used for interactive form toggle switches (`Log In` / `Sign Up` tabs) without `tabindex`, `role="button"`, or keyboard event listeners. This makes the toggle completely inaccessible via keyboard navigation.
+**Action:** Always prefer native `<button>` elements for interactive controls to get keyboard focus and space/enter key activation for free. When implementing toggle groups, ensure proper `aria-pressed` or `aria-selected` attributes are managed dynamically.
