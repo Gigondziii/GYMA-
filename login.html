@@ -108,6 +108,9 @@
         }
 
         .form-toggle-btn {
+            background: none;
+            border: none;
+            font-family: inherit;
             flex: 1;
             padding: 0.8rem 0;
             text-align: center;
@@ -274,8 +277,8 @@
             
             <div class="form-toggle">
                 <div class="form-toggle-slider" id="toggle-slider"></div>
-                <div class="form-toggle-btn active" id="btn-login" onclick="switchForm('login')">Log In</div>
-                <div class="form-toggle-btn" id="btn-signup" onclick="switchForm('signup')">Sign Up</div>
+                <button type="button" class="form-toggle-btn active" id="btn-login" onclick="switchForm('login')">Log In</button>
+                <button type="button" class="form-toggle-btn" id="btn-signup" onclick="switchForm('signup')">Sign Up</button>
             </div>
 
             <div class="form-wrapper">

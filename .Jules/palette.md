@@ -1,0 +1,3 @@
+## 2024-05-12 - Semantic HTML for Custom Toggles
+**Learning:** Found `<div class="form-toggle-btn" onclick="...">` used for authentication tabs. While it looks like a button visually, screen readers and keyboard users cannot easily navigate or activate it without native button semantics. This is a common pattern when building custom segment controls or tabs.
+**Action:** Replace `<div>` with `<button type="button">` for interactive elements that trigger actions but don't submit forms, and ensure basic button styling resets (`background: none; border: none; font-family: inherit;`) are applied to maintain the intended design.
