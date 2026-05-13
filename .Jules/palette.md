@@ -1,0 +1,3 @@
+## 2026-05-13 - Interactive Elements Must Be Semantic
+**Learning:** In the GYMA login form, custom toggle buttons were created using `<div>` tags with `onclick` handlers. This pattern prevented screen readers and keyboard users from interacting with the login/signup toggle. By switching them to `<button>` tags and stripping default styles, we preserved the UI while adding native accessibility.
+**Action:** Whenever implementing custom interactive controls (like toggles, tabs, or menus), always use semantic HTML (e.g., `<button>`) rather than attaching click handlers to generic `<div>` or `<span>` elements, ensuring native focus management and keyboard support are inherited.
