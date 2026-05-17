@@ -1,0 +1,3 @@
+## 2024-05-18 - Semantic Custom Tab Toggles
+**Learning:** Using `div` elements with `onclick` handlers for custom tab toggles breaks keyboard accessibility and screen reader support. Users cannot navigate to the toggles using the Tab key, and screen readers do not announce the current state (e.g., which tab is selected).
+**Action:** Always use native `<button>` elements for custom tab toggles. Apply appropriate ARIA roles (`role="tablist"`, `role="tab"`, `role="tabpanel"`), state attributes (`aria-selected`), and relationships (`aria-controls`, `aria-labelledby`). Strip default browser styling from the buttons using CSS (`background: none; border: none; font-family: inherit;`) to maintain the custom visual design while preserving native accessibility features.
