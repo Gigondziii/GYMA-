@@ -1,0 +1,3 @@
+## 2026-05-22 - Native buttons for custom tab toggles
+**Learning:** Using `<div>` elements with `onclick` handlers for custom tab toggles lacks keyboard accessibility and proper semantic meaning for screen readers. Users navigating via keyboard cannot focus on these elements natively without `tabindex`, and screen readers do not announce them as interactive tabs.
+**Action:** When implementing custom tab toggles, always use native `<button>` elements with appropriate ARIA roles (`role='tablist'`, `role='tab'`, `aria-selected`, `aria-controls`) and strip default browser styling to preserve custom design while ensuring full accessibility.
