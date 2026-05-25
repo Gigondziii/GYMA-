@@ -1,0 +1,3 @@
+## 2026-05-25 - Accessible Tab Toggles for Form Switching
+**Learning:** Interactive tab toggles (like switching between Login/Signup forms) were implemented using generic `<div>` elements with `onclick` handlers. This fails to provide semantic meaning, keyboard accessibility, or state communication to screen readers.
+**Action:** Replaced `<div>` toggles with native `<button type="button">`. Added `role="tablist"` to the container and `role="tab"`, `aria-selected`, and `aria-controls` to the buttons. Mapped the forms with `role="tabpanel"` and `aria-labelledby`. Reset default button styling and explicitly added a `:focus-visible` outline to ensure clear keyboard navigation visibility while preserving mouse user aesthetics.
