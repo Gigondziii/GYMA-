@@ -1,0 +1,3 @@
+## 2024-05-27 - Custom Tab Toggles Lacking Accessibility
+**Learning:** Found custom tab toggles implemented using `<div>` elements with `onclick` handlers on the login page. This approach breaks native keyboard navigation (tabbing) and lacks semantic meaning for screen readers.
+**Action:** When implementing custom tab toggles, always use native `<button>` elements with appropriate ARIA roles (`role='tablist'`, `role='tab'`, `aria-selected`, `aria-controls`) and strip default browser styling. Additionally, define `:focus-visible` styles to ensure clear keyboard navigation visibility while avoiding unnecessary outlines for mouse users.
