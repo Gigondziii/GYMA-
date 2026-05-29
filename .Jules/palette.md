@@ -1,0 +1,3 @@
+## 2024-05-29 - Accessible Tab Toggles
+**Learning:** Custom interactive elements (like `div` based tab toggles) need proper semantic HTML elements (like `button`) with appropriate ARIA attributes (`role="tab"`, `aria-selected`, `aria-controls`) and a tab container (`role="tablist"`). Furthermore, native buttons must have a transparent background and no borders to match previous styles while allowing for `:focus-visible` to support keyboard navigation visually.
+**Action:** When implementing custom tab toggles or any interactive element switching content, use native elements stripped of default styles, add explicit `:focus-visible` styling, and provide proper ARIA landmarks for screen reader accessibility.
