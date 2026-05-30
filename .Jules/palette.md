@@ -1,0 +1,3 @@
+## 2026-05-30 - Accessible Custom Tab Toggles
+**Learning:** When building custom tab toggles (like login/signup switches), using `<div>` elements with `onclick` handlers breaks keyboard navigation and screen reader support. Native `<button>` elements with ARIA roles (`role="tablist"`, `role="tab"`, `aria-selected`, `aria-controls`) and explicit `:focus-visible` styles provide a much more accessible and intuitive experience without compromising the visual design.
+**Action:** Always use semantic HTML elements like `<button>` for interactive components, strip default browser styles if necessary, and manage ARIA states dynamically in JavaScript for custom UI elements.
