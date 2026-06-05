@@ -1,0 +1,4 @@
+## 2024-06-05 - Refactor custom tab toggles to native `<button>` elements
+
+**Learning:** Custom UI toggles (like `<div>` elements with `onclick` handlers) used for switching forms lack implicit accessibility semantics. This makes them unreachable via keyboard navigation (Tab) and invisible to screen readers without extensive custom ARIA roles and event listeners.
+**Action:** When implementing interactive tab switches or form toggles, explicitly use native `<button type="button">` elements to inherit default keyboard focusability and interaction semantics. Add `role="tablist"` and `role="tab"`, alongside `aria-selected` and `aria-controls` to establish clear relationships for assistive technologies, and remember to define `:focus-visible` to maintain keyboard focus visibility while hiding outlines for mouse users.
