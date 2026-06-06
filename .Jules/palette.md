@@ -1,0 +1,3 @@
+## 2024-06-06 - Accessible Tab Lists
+**Learning:** Using generic `<div>` elements as tab buttons causes major accessibility barriers for screen reader and keyboard users. Missing semantic roles (`tablist`, `tab`, `tabpanel`) and states (`aria-selected`) make navigation confusing, while lack of native focus prevents keyboard interaction.
+**Action:** When implementing custom tab toggles or UI interaction buttons, always use native `<button>` elements explicitly defined with `type="button"`. Add appropriate ARIA roles (`role='tablist'`, `role='tab'`, `aria-selected`, `aria-controls`), strip default browser styling, and explicitly define `:focus-visible` styles to ensure clear keyboard navigation visibility while avoiding unnecessary outlines for mouse users.
