@@ -1,0 +1,3 @@
+## 2026-06-10 - Keyboard-Accessible Custom Tabs
+**Learning:** When replacing native interactive elements with custom UI patterns (like div-based tab toggles), essential keyboard accessibility is often lost. Screen readers and keyboard users require explicit structural hints and focus states that standard HTML provides automatically.
+**Action:** Always implement custom tabs using semantic `<button type="button">` elements. Add `role="tablist"`, `role="tab"`, and `role="tabpanel"` attributes to establish the correct structure. Use `aria-selected` and `aria-controls` to communicate state. Ensure clear visual feedback for keyboard navigation using the `:focus-visible` pseudo-class while stripping default browser button styles.
