@@ -1,0 +1,3 @@
+## 2024-05-14 - Semantic Form Tabs
+**Learning:** Using native `<button type="button">` elements instead of `<div>`s for custom form toggle tabs, and supplementing them with `role="tab"` and explicit `:focus-visible` states, drastically improves keyboard navigation accessibility and screen reader support without changing visual design.
+**Action:** Always prefer native interactive elements over `div` with `onclick`, and ensure focus states are visible for keyboard users using `:focus-visible`.
