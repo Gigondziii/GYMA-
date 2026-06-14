@@ -1,0 +1,3 @@
+## 2023-11-20 - [Accessible Custom Tab Toggles]
+**Learning:** When creating custom tab toggles (like in auth forms), using `<div>` elements with `onclick` handlers prevents proper keyboard navigation. Focus states also need explicit styling when default button styles are stripped.
+**Action:** Always implement custom tab toggles using native `<button type="button">` elements with `role="tablist"` on the container, `role="tab"` on the buttons, and dynamically updated `aria-selected` attributes. Additionally, explicitly define `:focus-visible` styles (e.g., matching the app's primary accent color, like `#00ff41`) to ensure clear keyboard navigation visibility while avoiding unnecessary outlines for mouse users.
