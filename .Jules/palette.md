@@ -1,0 +1,3 @@
+## 2024-06-18 - Interactive Custom Tabs using `<div>`
+**Learning:** Found custom tablist implementations leveraging `<div>` elements with `onclick` handlers on the login page. This prevents fundamental keyboard navigation access and blocks screen reader context for tab toggles. When converting, browsers may lack visible focus indicators on native custom components.
+**Action:** Always replace `<div>` based interactable toggles with native `<button>` tags using explicit `type="button"`. Apply ARIA roles `tablist`, `tab`, and `tabpanel`, along with programmatic `aria-selected` tracking in the associated JavaScript function. Explicitly inject `:focus-visible` styling tied to the primary brand accent.
