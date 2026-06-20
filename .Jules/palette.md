@@ -1,0 +1,3 @@
+## 2026-06-20 - Semantic Form Toggles & ARIA attributes
+**Learning:** In highly stylized HTML auth pages (like `login.html`), form toggles are sometimes built using generic `<div>` tags with `onclick` handlers, breaking keyboard navigation. Using native `<button type="button">` natively hooks into focus states while maintaining the style through basic CSS resets (`background: none; border: none; font-family: inherit;`). Setting proper `role="tablist"`/`role="tab"`/`role="tabpanel"` improves screen reader comprehension.
+**Action:** When restyling UI "tabs", always use native `<button>` tags with the appropriate `role` and `aria-*` attributes instead of plain `<div>` tags to ensure focusability, semantic meaning, and prevent accessibility issues.
