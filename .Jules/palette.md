@@ -1,0 +1,3 @@
+## 2026-06-21 - Custom Tab Components Require Native Semantics
+**Learning:** When building custom tab toggles (like login/signup switches), using `<div>` elements with `onclick` handlers breaks keyboard accessibility and screen reader support. Developers often strip button styles and recreate them with `<div>` elements to avoid default styling, but this sacrifices accessibility.
+**Action:** Always use native `<button type="button">` elements for custom interactive toggles. Strip the default styling via CSS (e.g. `background: none; border: none; font: inherit; cursor: pointer;`) and explicitly define a clear `:focus-visible` state to ensure keyboard navigation remains accessible without disrupting mouse users.
