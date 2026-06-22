@@ -1,0 +1,3 @@
+## 2026-06-22 - Semantic Tab Toggles
+**Learning:** Custom UI components like tab toggles implemented with `<div>` and `onclick` handlers break keyboard accessibility, screen reader compatibility, and fail to manage focus correctly.
+**Action:** When implementing custom tab toggles or UI interaction buttons, use native `<button>` elements explicitly defined with `type="button"` to prevent accidental form submissions, add appropriate ARIA roles (`role="tablist"`, `role="tab"`, `aria-selected`, `aria-controls`) to the buttons and `role="tabpanel"` with `aria-labelledby` to their corresponding content containers, and strip default browser styling, along with defining `:focus-visible` styles to ensure clear keyboard navigation visibility.
