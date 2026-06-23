@@ -1,0 +1,3 @@
+## 2024-05-18 - Custom Tab Toggle Accessibility
+**Learning:** Custom UI pill switches for forms (like Login/Signup toggles) built with `<div>` elements and `onclick` completely break keyboard navigation and screen reader semantics. Native `<button>` elements naturally receive focus, and assigning `role="tablist"` and `role="tab"` restores expected semantic behavior for tabbed interfaces.
+**Action:** Whenever building or encountering custom tab toggles, always use `<button type="button">`, strip default browser styling, apply `role="tablist"` / `role="tab"`, and add clear `:focus-visible` outlines using the theme's primary color.
