@@ -1,0 +1,3 @@
+## 2024-05-24 - Accessibility issues with custom tabs
+**Learning:** Using `div` elements with `onclick` handlers for form tabs creates accessibility barriers. They lack semantic meaning, cannot be focused via keyboard, and do not communicate state to screen readers.
+**Action:** Always use native `<button type="button">` elements for interactive toggles. Additionally, when building custom tab components, implement ARIA attributes (`role="tablist"`, `role="tab"`, `role="tabpanel"`, `aria-selected`, `aria-controls`) and ensure explicit `:focus-visible` styling is defined using the app's primary theme color.
