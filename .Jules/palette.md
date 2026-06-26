@@ -1,0 +1,5 @@
+## 2026-06-26 - Semantic HTML and Custom Tabs in login.html
+
+**Learning:** When custom tabs (like login/signup toggles) are built using standard `<div>` elements and simple `onclick` events, they lack native keyboard accessibility and screen reader support. Because they are not natively focusable components, users navigating via keyboard (using the `Tab` key) are skipped over them, and screen readers fail to communicate their state (`aria-selected` status) or purpose to users.
+
+**Action:** Replaced interactive `<div>` toggles with native `<button>` elements equipped with explicit `type="button"`. Leveraged standard ARIA roles (`role="tablist"` for the container, `role="tab"` for the buttons, and `role="tabpanel"` for the content) to communicate their structure. Implemented `:focus-visible` states to present clear outlines without disrupting mouse navigation. Going forward, apply standard HTML input/button tags for all custom interaction elements and build up structure natively rather than applying JS layers to bare `<div>` elements.
