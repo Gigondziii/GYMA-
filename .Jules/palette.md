@@ -1,0 +1,3 @@
+## 2024-06-28 - Custom Tab Toggles require Native Elements
+**Learning:** Custom tab toggles using generic elements like `<div>` with `onclick` lack necessary keyboard navigability and semantic meaning for screen readers. While the styling looks like a toggle, users without a mouse cannot easily interact with it.
+**Action:** Always refactor custom interactive toggles to use native `<button type="button">` elements. Add `role="tablist"`, `role="tab"`, `aria-selected`, `aria-controls` for semantics, and explicitly define `:focus-visible` styles to replace default browser outlines while ensuring clear keyboard focus indication.
