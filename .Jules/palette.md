@@ -1,0 +1,3 @@
+## 2024-05-24 - Interactive Tab Toggles Keyboard Navigation
+**Learning:** Custom UI tabs implemented as `<div>` elements with click handlers and background slider animations completely break keyboard accessibility and ignore screen readers. This pattern was observed in `login.html`.
+**Action:** When creating custom tab components, always use native `<button type="button" role="tab">` elements within a `role="tablist"` container. Strip default button styling and explicitly define `focus-visible` states using the app's primary accent color to ensure keyboard navigation visibility while avoiding unnecessary outlines for mouse users.
