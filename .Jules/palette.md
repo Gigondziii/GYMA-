@@ -1,0 +1,3 @@
+## 2026-07-02 - Form Toggle Accessibility
+**Learning:** Replaced `div` based click targets with semantic `button` tags for form toggles. Stripping default button styles (like border, background, and font-family) was necessary to maintain original design without visual regressions. WAI-ARIA `tab` pattern (`role="tablist"`, `role="tab"`, `role="tabpanel"`) ensures screen reader context, and explicit `:focus-visible` ensures keyboard navigation is trackable.
+**Action:** When implementing custom toggle switches, always use native `<button type="button">`, strip default styles via CSS to match the design, and wire up `role="tab"` attributes along with dynamic `aria-selected` state.
