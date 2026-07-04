@@ -117,6 +117,15 @@
             cursor: pointer;
             z-index: 1;
             transition: color 0.3s ease;
+            background: none;
+            border: none;
+            font-family: inherit;
+        }
+
+        .form-toggle-btn:focus-visible {
+            outline: 2px solid #00ff41;
+            outline-offset: 2px;
+            border-radius: 100px;
         }
 
         .form-toggle-btn.active {
@@ -272,15 +281,15 @@
         <!-- Authentication Form Overlay -->
         <div class="auth-container">
             
-            <div class="form-toggle">
+            <div class="form-toggle" role="tablist">
                 <div class="form-toggle-slider" id="toggle-slider"></div>
-                <div class="form-toggle-btn active" id="btn-login" onclick="switchForm('login')">Log In</div>
-                <div class="form-toggle-btn" id="btn-signup" onclick="switchForm('signup')">Sign Up</div>
+                <button type="button" class="form-toggle-btn active" id="btn-login" onclick="switchForm('login')" role="tab" aria-controls="form-login" aria-selected="true">Log In</button>
+                <button type="button" class="form-toggle-btn" id="btn-signup" onclick="switchForm('signup')" role="tab" aria-controls="form-signup" aria-selected="false">Sign Up</button>
             </div>
 
             <div class="form-wrapper">
                 <!-- Login Form -->
-                <form id="form-login" class="auth-form">
+                <form id="form-login" class="auth-form" role="tabpanel" aria-labelledby="btn-login">
                     <h2>Welcome Back</h2>
                     <div class="input-group">
                         <label for="login-email">Email Address</label>
@@ -295,7 +304,7 @@
                 </form>
 
                 <!-- Signup Form -->
-                <form id="form-signup" class="auth-form hidden">
+                <form id="form-signup" class="auth-form hidden" role="tabpanel" aria-labelledby="btn-signup">
                     <h2>Create Account</h2>
                     <div class="input-group">
                         <label for="signup-name">Full Name</label>
@@ -337,13 +346,17 @@
                 loginForm.classList.remove('hidden');
                 signupForm.classList.add('hidden');
                 btnLogin.classList.add('active');
+                btnLogin.setAttribute('aria-selected', 'true');
                 btnSignup.classList.remove('active');
+                btnSignup.setAttribute('aria-selected', 'false');
                 slider.style.transform = 'translateX(0)';
             } else {
                 loginForm.classList.add('hidden');
                 signupForm.classList.remove('hidden');
                 btnLogin.classList.remove('active');
+                btnLogin.setAttribute('aria-selected', 'false');
                 btnSignup.classList.add('active');
+                btnSignup.setAttribute('aria-selected', 'true');
                 slider.style.transform = 'translateX(100%)';
             }
         }

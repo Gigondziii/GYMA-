@@ -1,0 +1,3 @@
+## 2024-05-18 - Semantic HTML in Custom Toggles
+**Learning:** Custom UI elements like toggle tabs (Login/Signup) are often built with `<div>` tags and `onclick` handlers, rendering them invisible to keyboard navigation and screen readers.
+**Action:** When creating or fixing custom tab toggles, explicitly convert them to native `<button type="button">`, add standard ARIA tab attributes (`role="tablist"`, `role="tab"`, `aria-selected`, etc.), ensure they manage their active states programmatically, and provide explicit `:focus-visible` styling (stripping default browser button styles if needed).
