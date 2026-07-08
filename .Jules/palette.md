@@ -1,0 +1,3 @@
+## 2024-06-03 - Native Buttons for Tab Toggles
+**Learning:** In this project's custom tab components (like the login/signup toggle), interactive elements were built using `<div>` elements, missing native focus and semantics.
+**Action:** Replace `<div>` toggles with `<button type="button">` and explicitly add `role="tab"`/`tablist` with `aria-selected`. To preserve the design system's dark theme aesthetic, apply a CSS reset (`background: none; border: none; font-family: inherit;`) and add a custom `:focus-visible` state using the primary accent color (`#00ff41`) with an offset to maintain high visibility for keyboard navigation.
