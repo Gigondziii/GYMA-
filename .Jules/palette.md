@@ -1,0 +1,3 @@
+## 2026-07-09 - Tab UI Accessibility
+**Learning:** Custom tab UIs (like form toggles) built with `<div>` elements and `onclick` handlers severely degrade keyboard navigation and screen reader support, as they lack semantic structure and focus management.
+**Action:** Always implement custom tab toggles using native `<button type="button">`, strip default browser styling via CSS, explicitly define `:focus-visible` outlines, and apply correct ARIA roles (`role="tablist"`, `role="tab"`, `role="tabpanel"`) and attributes (`aria-selected`, `aria-controls`, `aria-labelledby`) that update dynamically with JavaScript.
