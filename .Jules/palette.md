@@ -1,0 +1,3 @@
+## 2026-07-14 - Accessible Tab Toggles
+**Learning:** When creating custom tab controls like login/signup toggles, using native \<button\> elements with proper ARIA attributes (role='tablist', role='tab', aria-selected) combined with roving tabindex (0 and -1) and arrow-key navigation is necessary to maintain proper keyboard accessibility and ensure screen readers handle state correctly.
+**Action:** Always verify that interactive UI toggle components use semantic button elements, have explicit focus-visible states for keyboard navigation clarity, and implement arrow key handling with preventDefault to prevent unwanted scrolling while keeping focus synchronized.
