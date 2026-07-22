@@ -119,6 +119,18 @@
             transition: color 0.3s ease;
         }
 
+        .form-toggle-btn {
+            background: none;
+            border: none;
+            font-family: inherit;
+        }
+
+        .form-toggle-btn:focus-visible {
+            outline: 2px solid #00ff41;
+            outline-offset: 2px;
+            border-radius: 100px;
+        }
+
         .form-toggle-btn.active {
             color: #ffffff;
         }
@@ -272,15 +284,15 @@
         <!-- Authentication Form Overlay -->
         <div class="auth-container">
             
-            <div class="form-toggle">
+            <div class="form-toggle" role="tablist" aria-label="Authentication Toggle">
                 <div class="form-toggle-slider" id="toggle-slider"></div>
-                <div class="form-toggle-btn active" id="btn-login" onclick="switchForm('login')">Log In</div>
-                <div class="form-toggle-btn" id="btn-signup" onclick="switchForm('signup')">Sign Up</div>
+                <button type="button" class="form-toggle-btn active" id="btn-login" role="tab" aria-selected="true" aria-controls="form-login" tabindex="0" onclick="switchForm('login')">Log In</button>
+                <button type="button" class="form-toggle-btn" id="btn-signup" role="tab" aria-selected="false" aria-controls="form-signup" tabindex="-1" onclick="switchForm('signup')">Sign Up</button>
             </div>
 
             <div class="form-wrapper">
                 <!-- Login Form -->
-                <form id="form-login" class="auth-form">
+                <form id="form-login" class="auth-form" role="tabpanel" aria-labelledby="btn-login">
                     <h2>Welcome Back</h2>
                     <div class="input-group">
                         <label for="login-email">Email Address</label>
@@ -295,7 +307,7 @@
                 </form>
 
                 <!-- Signup Form -->
-                <form id="form-signup" class="auth-form hidden">
+                <form id="form-signup" class="auth-form hidden" role="tabpanel" aria-labelledby="btn-signup">
                     <h2>Create Account</h2>
                     <div class="input-group">
                         <label for="signup-name">Full Name</label>
@@ -337,16 +349,41 @@
                 loginForm.classList.remove('hidden');
                 signupForm.classList.add('hidden');
                 btnLogin.classList.add('active');
+                btnLogin.setAttribute('aria-selected', 'true');
+                btnLogin.setAttribute('tabindex', '0');
                 btnSignup.classList.remove('active');
+                btnSignup.setAttribute('aria-selected', 'false');
+                btnSignup.setAttribute('tabindex', '-1');
                 slider.style.transform = 'translateX(0)';
             } else {
                 loginForm.classList.add('hidden');
                 signupForm.classList.remove('hidden');
                 btnLogin.classList.remove('active');
+                btnLogin.setAttribute('aria-selected', 'false');
+                btnLogin.setAttribute('tabindex', '-1');
                 btnSignup.classList.add('active');
+                btnSignup.setAttribute('aria-selected', 'true');
+                btnSignup.setAttribute('tabindex', '0');
                 slider.style.transform = 'translateX(100%)';
             }
         }
+
+        // Keyboard navigation for tablist
+        document.querySelector('.form-toggle').addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+                e.preventDefault();
+                const btnLogin = document.getElementById('btn-login');
+                const btnSignup = document.getElementById('btn-signup');
+
+                if (document.activeElement === btnLogin) {
+                    btnSignup.focus();
+                    switchForm('signup');
+                } else if (document.activeElement === btnSignup) {
+                    btnLogin.focus();
+                    switchForm('login');
+                }
+            }
+        });
         
         // Check URL hash to pre-select sign up vs login if linked
         window.addEventListener('DOMContentLoaded', async () => {
