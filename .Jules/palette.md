@@ -1,0 +1,3 @@
+## 2024-07-24 - Converting DIV Toggles to Native Buttons
+**Learning:** Custom UI components built with `<div>` (like the login/signup toggle) severely degrade keyboard and screen reader accessibility by omitting native focus states and semantic meaning.
+**Action:** Always replace interactive `<div>` elements with native `<button type="button">`. Apply appropriate ARIA attributes (`role="tablist"`, `role="tab"`, `aria-selected`, `aria-controls`), explicitly define `:focus-visible` styling after stripping default browser button styles, and implement a roving tabindex navigated via Arrow keys to ensure compliance with a11y standards.
