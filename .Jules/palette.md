@@ -1,0 +1,3 @@
+## 2024-05-23 - Roving Tabindex for Custom Tab Controls
+**Learning:** Custom UI toggles (like login/signup switches) are often built with `<div>` elements lacking semantics. Converting them to `<button>` with `role="tablist"`/`role="tab"` and ARIA states is insufficient for full accessibility without also implementing a "roving tabindex" (where only the active tab has `tabindex="0"`) and JavaScript-handled arrow key navigation (`ArrowRight`/`ArrowLeft`) to match native tab control behavior.
+**Action:** When implementing or fixing custom tab-like toggles, always use native buttons, strip their default styling, apply a roving tabindex, and implement arrow key listeners on the tablist container to properly move focus.
