@@ -1,0 +1,3 @@
+## 2024-11-25 - [Accessible Tab Toggles]
+**Learning:** When implementing custom visual toggles (e.g., login vs sign up), changing <div>s to <button type="button"> is only the first step. For true keyboard navigation akin to native OS tabs, a roving tabindex (0 and -1) pattern combined with left/right arrow key event listeners on the tablist container is required, allowing users to smoothly switch tabs without tabbing through every element sequentially.
+**Action:** Always wrap custom toggles in a `role="tablist"`, apply `role="tab"` to the buttons, manage `aria-selected` and `tabindex` dynamically in JS, and attach an arrow-key navigation listener to the tablist container that calls `.focus()` and `.click()` on the next tab.
