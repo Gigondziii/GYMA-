@@ -1,0 +1,4 @@
+
+## 2026-08-09 - Accessible Tablist Pattern for Custom UI Toggles
+**Learning:** Custom UI toggles implemented with `<div>` elements and inline `onclick` handlers break keyboard accessibility and screen reader support. Converting them to native `<button>` elements with `role="tablist"` and `role="tab"` restores native semantics, but requires stripping browser default button styling, implementing a roving `tabindex` (-1/0), and adding keyboard event handlers (`ArrowLeft`/`ArrowRight`) to fully comply with WAI-ARIA tablist specifications.
+**Action:** Always replace `<div>`-based clickable toggles with native `<button>` elements that have explicitly stripped styles. Add `role="tablist"`, `aria-selected`, and arrow-key navigation handlers to preserve the visual design while making the interaction fully keyboard and screen-reader accessible.
