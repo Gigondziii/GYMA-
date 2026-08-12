@@ -1,0 +1,3 @@
+## 2024-05-24 - Accessible Tab Toggles
+**Learning:** Custom UI tab toggles built with `<div>` elements completely exclude keyboard users and screen readers. When replacing them with native `<button>` elements to add `role="tablist"` and `role="tab"` semantics, it is critical to explicitly strip default browser button styles (`background: none; border: none; outline: none; font-family: inherit;`) to preserve the original visual design.
+**Action:** Always use native `<button type="button">` elements for custom tab toggles. When stripping their default styles, ensure a distinct `:focus-visible` outline is explicitly defined to maintain clear keyboard navigation visibility without impacting mouse users.
