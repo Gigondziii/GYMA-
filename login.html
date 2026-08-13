@@ -117,6 +117,16 @@
             cursor: pointer;
             z-index: 1;
             transition: color 0.3s ease;
+            background: none;
+            border: none;
+            font-family: inherit;
+            outline: none;
+        }
+
+        .form-toggle-btn:focus-visible {
+            outline: 2px solid #00ff41;
+            outline-offset: -2px;
+            border-radius: 100px;
         }
 
         .form-toggle-btn.active {
@@ -272,15 +282,15 @@
         <!-- Authentication Form Overlay -->
         <div class="auth-container">
             
-            <div class="form-toggle">
+            <div class="form-toggle" role="tablist" aria-label="Authentication Options">
                 <div class="form-toggle-slider" id="toggle-slider"></div>
-                <div class="form-toggle-btn active" id="btn-login" onclick="switchForm('login')">Log In</div>
-                <div class="form-toggle-btn" id="btn-signup" onclick="switchForm('signup')">Sign Up</div>
+                <button type="button" role="tab" aria-selected="true" aria-controls="form-login" tabindex="0" class="form-toggle-btn active" id="btn-login" onclick="switchForm('login')">Log In</button>
+                <button type="button" role="tab" aria-selected="false" aria-controls="form-signup" tabindex="-1" class="form-toggle-btn" id="btn-signup" onclick="switchForm('signup')">Sign Up</button>
             </div>
 
             <div class="form-wrapper">
                 <!-- Login Form -->
-                <form id="form-login" class="auth-form">
+                <form id="form-login" class="auth-form" role="tabpanel" aria-labelledby="btn-login">
                     <h2>Welcome Back</h2>
                     <div class="input-group">
                         <label for="login-email">Email Address</label>
@@ -295,7 +305,7 @@
                 </form>
 
                 <!-- Signup Form -->
-                <form id="form-signup" class="auth-form hidden">
+                <form id="form-signup" class="auth-form hidden" role="tabpanel" aria-labelledby="btn-signup">
                     <h2>Create Account</h2>
                     <div class="input-group">
                         <label for="signup-name">Full Name</label>
@@ -337,16 +347,53 @@
                 loginForm.classList.remove('hidden');
                 signupForm.classList.add('hidden');
                 btnLogin.classList.add('active');
+                btnLogin.setAttribute('aria-selected', 'true');
+                btnLogin.setAttribute('tabindex', '0');
                 btnSignup.classList.remove('active');
+                btnSignup.setAttribute('aria-selected', 'false');
+                btnSignup.setAttribute('tabindex', '-1');
                 slider.style.transform = 'translateX(0)';
+                btnLogin.focus();
             } else {
                 loginForm.classList.add('hidden');
                 signupForm.classList.remove('hidden');
                 btnLogin.classList.remove('active');
+                btnLogin.setAttribute('aria-selected', 'false');
+                btnLogin.setAttribute('tabindex', '-1');
                 btnSignup.classList.add('active');
+                btnSignup.setAttribute('aria-selected', 'true');
+                btnSignup.setAttribute('tabindex', '0');
                 slider.style.transform = 'translateX(100%)';
+                btnSignup.focus();
             }
         }
+
+        // Handle keyboard navigation for tabs
+        document.addEventListener('DOMContentLoaded', () => {
+            const tablist = document.querySelector('.form-toggle[role="tablist"]');
+            const tabs = Array.from(tablist.querySelectorAll('[role="tab"]'));
+
+            tablist.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+                    e.preventDefault();
+
+                    const activeIndex = tabs.indexOf(document.activeElement);
+                    if (activeIndex === -1) return;
+
+                    let nextIndex = activeIndex;
+                    if (e.key === 'ArrowRight') {
+                        nextIndex = (activeIndex + 1) % tabs.length;
+                    } else if (e.key === 'ArrowLeft') {
+                        nextIndex = (activeIndex - 1 + tabs.length) % tabs.length;
+                    }
+
+                    if (nextIndex !== activeIndex) {
+                        const targetFormName = tabs[nextIndex].id === 'btn-login' ? 'login' : 'signup';
+                        switchForm(targetFormName);
+                    }
+                }
+            });
+        });
         
         // Check URL hash to pre-select sign up vs login if linked
         window.addEventListener('DOMContentLoaded', async () => {
