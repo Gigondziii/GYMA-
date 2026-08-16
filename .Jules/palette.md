@@ -1,0 +1,3 @@
+## 2026-08-16 - Accessible Custom Authentication Tabs
+**Learning:** When building custom toggle switches (like login/signup tabs) that aren't native inputs, explicitly defining button semantics, roving tabindex (0 and -1), ARIA roles (`tablist`, `tab`, `tabpanel`), and capturing left/right arrow key navigation is critical for full screen-reader and keyboard accessibility.
+**Action:** For custom interactive UI controls acting as tabs or switches, always replace <div>s with <button type="button">, apply role="tablist" to the parent, manage active/inactive tabindex dynamically, and implement arrow key selection logic.
