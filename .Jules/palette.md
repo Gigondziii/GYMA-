@@ -1,0 +1,3 @@
+## 2026-08-18 - Native Buttons vs Custom Div Toggles
+**Learning:** Using `<div>` elements with `onclick` handlers for form toggles creates a critical accessibility barrier for keyboard and screen reader users. While styling can make them appear as buttons or tabs, they lack inherent semantics, focus visibility, and keyboard event handling.
+**Action:** Always replace custom div-based interactive elements with native semantic elements (like `<button type="button">`). Strip the default browser styling (e.g. `background: none; border: none;`) to maintain the visual design, and rely on native `:focus-visible` to ensure seamless keyboard navigation without adding redundant JS focus management.
