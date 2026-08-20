@@ -1,0 +1,3 @@
+## 2024-08-20 - Custom Tab Toggles Should Use Native Buttons
+**Learning:** When implementing custom tab UI (like login/signup toggles), using `<div>` elements with `onclick` handlers breaks keyboard accessibility and screen reader support. Native `<button>` elements with ARIA roles (`role="tab"`, `role="tablist"`, `role="tabpanel"`) and roving tabindex are required to make these interactive elements accessible without complex custom focus management.
+**Action:** Always replace `<div>` based custom toggles with `<button type="button">` elements, strip default styling (background, border), and implement arrow-key navigation with roving tabindex for robust keyboard support.
