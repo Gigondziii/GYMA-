@@ -1,0 +1,3 @@
+## 2023-10-27 - Custom Form Toggles Accessibility
+**Learning:** Custom `<div>` based form toggles in auth layouts (like switching between Log In and Sign Up) look clean but completely break keyboard navigation and screen readers if they lack native `<button>` markup and proper ARIA `role="tablist"` implementation. Focus indicators are also critical for keyboard users to identify active tabs.
+**Action:** When implementing or fixing custom UI tab/toggle components, always prefer native `<button type="button">` with stripped default styles (`background: none; border: none;`). Add `role="tablist"`, `role="tab"`, `aria-selected`, roving `tabindex`, and explicitly implement keyboard navigation (Arrow keys) to ensure robust accessibility.
