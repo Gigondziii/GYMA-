@@ -1,0 +1,3 @@
+## 2026-08-25 - Accessible Custom Tabs via Native Buttons
+**Learning:** Custom tab components (like "Log In" vs "Sign Up" toggles) built with `<div>` tags completely block keyboard navigation and screen readers. Roving tabindex logic with native `<button>` tags (stripping default styles) provides an immediate accessibility win without breaking the design.
+**Action:** When implementing custom interactive toggles, always use native `<button type="button">` elements stripped of default styling, paired with proper ARIA tab roles (`tablist`, `tab`, `tabpanel`), a roving `tabindex` with arrow key navigation, and high-contrast `:focus-visible` states.
