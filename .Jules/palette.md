@@ -1,0 +1,5 @@
+## 2024-05-24 - Accessible Tab Toggles
+
+**Learning:** When upgrading custom `<div>`-based tab toggles to native `<button>` elements for accessibility, the default browser styling for buttons can break the intended design. Furthermore, semantic tabs require a roving `tabindex` (0 for the active tab, -1 for inactive ones) and arrow-key event handling to be fully accessible for keyboard users without causing unwanted tab stops.
+
+**Action:** Whenever converting non-semantic UI toggles to `<button role="tab">`, explicitly strip default button styles (`background: none; border: none; font-family: inherit; outline: none;`), implement a roving tabindex via JavaScript, and attach a `keydown` listener to handle `ArrowRight` and `ArrowLeft` for accessible navigation between tabs. Don't forget to add a clear `:focus-visible` state!
