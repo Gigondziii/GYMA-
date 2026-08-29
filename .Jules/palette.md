@@ -1,0 +1,3 @@
+## 2024-10-24 - Custom Tab Toggle Accessibility
+**Learning:** Converting visual-only `<div>` toggles into accessible tabs requires more than just adding `<button>` and ARIA roles. You must explicitly manage a "roving tabindex" (active `0`, inactive `-1`) and handle arrow-key events to shift both the DOM focus and the tabindex state simultaneously to maintain proper keyboard accessibility.
+**Action:** When creating or fixing custom tab-like toggles, always implement a roving tabindex combined with left/right arrow key navigation (handling `e.preventDefault()` to stop scrolling) in addition to assigning `role="tablist"` and `role="tab"`.
