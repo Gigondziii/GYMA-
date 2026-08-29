@@ -123,6 +123,12 @@
             color: #ffffff;
         }
 
+        .form-toggle-btn:focus-visible {
+            outline: 2px solid #00ff41;
+            outline-offset: -2px;
+            border-radius: 20px;
+        }
+
         .form-toggle-slider {
             position: absolute;
             top: 0.3rem;
@@ -272,15 +278,15 @@
         <!-- Authentication Form Overlay -->
         <div class="auth-container">
             
-            <div class="form-toggle">
+            <div class="form-toggle" role="tablist">
                 <div class="form-toggle-slider" id="toggle-slider"></div>
-                <div class="form-toggle-btn active" id="btn-login" onclick="switchForm('login')">Log In</div>
-                <div class="form-toggle-btn" id="btn-signup" onclick="switchForm('signup')">Sign Up</div>
+                <button type="button" class="form-toggle-btn active" id="btn-login" onclick="switchForm('login')" role="tab" aria-selected="true" aria-controls="form-login" tabindex="0" style="background:none; border:none; font-family:inherit; cursor:pointer;">Log In</button>
+                <button type="button" class="form-toggle-btn" id="btn-signup" onclick="switchForm('signup')" role="tab" aria-selected="false" aria-controls="form-signup" tabindex="-1" style="background:none; border:none; font-family:inherit; cursor:pointer;">Sign Up</button>
             </div>
 
             <div class="form-wrapper">
                 <!-- Login Form -->
-                <form id="form-login" class="auth-form">
+                <form id="form-login" class="auth-form" role="tabpanel" aria-labelledby="btn-login">
                     <h2>Welcome Back</h2>
                     <div class="input-group">
                         <label for="login-email">Email Address</label>
@@ -295,7 +301,7 @@
                 </form>
 
                 <!-- Signup Form -->
-                <form id="form-signup" class="auth-form hidden">
+                <form id="form-signup" class="auth-form hidden" role="tabpanel" aria-labelledby="btn-signup">
                     <h2>Create Account</h2>
                     <div class="input-group">
                         <label for="signup-name">Full Name</label>
@@ -339,14 +345,40 @@
                 btnLogin.classList.add('active');
                 btnSignup.classList.remove('active');
                 slider.style.transform = 'translateX(0)';
+                btnLogin.setAttribute("aria-selected", "true");
+                btnLogin.setAttribute("tabindex", "0");
+                btnSignup.setAttribute("aria-selected", "false");
+                btnSignup.setAttribute("tabindex", "-1");
             } else {
                 loginForm.classList.add('hidden');
                 signupForm.classList.remove('hidden');
                 btnLogin.classList.remove('active');
                 btnSignup.classList.add('active');
                 slider.style.transform = 'translateX(100%)';
+                btnSignup.setAttribute("aria-selected", "true");
+                btnSignup.setAttribute("tabindex", "0");
+                btnLogin.setAttribute("aria-selected", "false");
+                btnLogin.setAttribute("tabindex", "-1");
             }
         }
+
+        document.querySelector(".form-toggle").addEventListener("keydown", function(e) {
+            const tabs = Array.from(this.querySelectorAll('[role="tab"]'));
+            const currentIndex = tabs.indexOf(document.activeElement);
+            if (currentIndex === -1) return;
+            let nextIndex = null;
+            if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+                nextIndex = (currentIndex + 1) % tabs.length;
+                e.preventDefault();
+            } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+                nextIndex = (currentIndex - 1 + tabs.length) % tabs.length;
+                e.preventDefault();
+            }
+            if (nextIndex !== null) {
+                tabs[nextIndex].focus();
+                tabs[nextIndex].click();
+            }
+        });
         
         // Check URL hash to pre-select sign up vs login if linked
         window.addEventListener('DOMContentLoaded', async () => {
