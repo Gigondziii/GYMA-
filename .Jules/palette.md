@@ -1,0 +1,3 @@
+## 2024-05-18 - Roving Tabindex for Custom Tabs
+**Learning:** Custom interactive elements like form toggle tabs built from `<div>`s lose native keyboard accessibility and screen reader support. Merely adding `tabindex` isn't enough; true tabbed interfaces require a combination of semantic roles (`tablist`, `tab`, `tabpanel`), proper ARIA attributes (`aria-selected`, `aria-controls`), and a roving tabindex (`tabindex="0"` on the active tab, `-1` on inactive tabs) coupled with arrow-key navigation handlers.
+**Action:** Always replace `<div>`-based interactive components with native `<button>` elements (stripping default styles) and implement the roving tabindex pattern with arrow key support to ensure robust a11y compliance while maintaining the original visual design.
