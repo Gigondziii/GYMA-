@@ -108,6 +108,10 @@
         }
 
         .form-toggle-btn {
+            background: none;
+            border: none;
+            font-family: inherit;
+            outline: none;
             flex: 1;
             padding: 0.8rem 0;
             text-align: center;
@@ -117,6 +121,11 @@
             cursor: pointer;
             z-index: 1;
             transition: color 0.3s ease;
+            border-radius: 100px;
+        }
+
+        .form-toggle-btn:focus-visible {
+            box-shadow: 0 0 0 2px #00ff41;
         }
 
         .form-toggle-btn.active {
@@ -272,15 +281,15 @@
         <!-- Authentication Form Overlay -->
         <div class="auth-container">
             
-            <div class="form-toggle">
+            <div class="form-toggle" role="tablist" aria-label="Authentication modes">
                 <div class="form-toggle-slider" id="toggle-slider"></div>
-                <div class="form-toggle-btn active" id="btn-login" onclick="switchForm('login')">Log In</div>
-                <div class="form-toggle-btn" id="btn-signup" onclick="switchForm('signup')">Sign Up</div>
+                <button type="button" class="form-toggle-btn active" id="btn-login" role="tab" aria-selected="true" aria-controls="form-login" tabindex="0" onclick="switchForm('login')">Log In</button>
+                <button type="button" class="form-toggle-btn" id="btn-signup" role="tab" aria-selected="false" aria-controls="form-signup" tabindex="-1" onclick="switchForm('signup')">Sign Up</button>
             </div>
 
             <div class="form-wrapper">
                 <!-- Login Form -->
-                <form id="form-login" class="auth-form">
+                <form id="form-login" class="auth-form" role="tabpanel" aria-labelledby="btn-login">
                     <h2>Welcome Back</h2>
                     <div class="input-group">
                         <label for="login-email">Email Address</label>
@@ -295,7 +304,7 @@
                 </form>
 
                 <!-- Signup Form -->
-                <form id="form-signup" class="auth-form hidden">
+                <form id="form-signup" class="auth-form hidden" role="tabpanel" aria-labelledby="btn-signup">
                     <h2>Create Account</h2>
                     <div class="input-group">
                         <label for="signup-name">Full Name</label>
@@ -339,14 +348,36 @@
                 btnLogin.classList.add('active');
                 btnSignup.classList.remove('active');
                 slider.style.transform = 'translateX(0)';
+                btnLogin.setAttribute('aria-selected', 'true');
+                btnSignup.setAttribute('aria-selected', 'false');
+                btnLogin.setAttribute('tabindex', '0');
+                btnSignup.setAttribute('tabindex', '-1');
             } else {
                 loginForm.classList.add('hidden');
                 signupForm.classList.remove('hidden');
                 btnLogin.classList.remove('active');
                 btnSignup.classList.add('active');
                 slider.style.transform = 'translateX(100%)';
+                btnSignup.setAttribute('aria-selected', 'true');
+                btnLogin.setAttribute('aria-selected', 'false');
+                btnSignup.setAttribute('tabindex', '0');
+                btnLogin.setAttribute('tabindex', '-1');
             }
         }
+
+        // Tab navigation logic
+        document.querySelector('.form-toggle').addEventListener('keydown', (e) => {
+            const tabs = [document.getElementById('btn-login'), document.getElementById('btn-signup')];
+            let index = tabs.indexOf(document.activeElement);
+            if (index === -1) return;
+
+            if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+                e.preventDefault();
+                index = e.key === 'ArrowRight' ? (index + 1) % tabs.length : (index - 1 + tabs.length) % tabs.length;
+                tabs[index].focus();
+                tabs[index].click();
+            }
+        });
         
         // Check URL hash to pre-select sign up vs login if linked
         window.addEventListener('DOMContentLoaded', async () => {
