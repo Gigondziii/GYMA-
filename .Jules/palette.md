@@ -1,0 +1,3 @@
+## 2024-09-03 - Accessible Form Toggle
+**Learning:** Custom 'toggle switch' UIs for forms are often implemented as unsemantic `<div>` elements with `onclick` handlers, completely excluding keyboard users and screen readers from discovering or interacting with the toggle.
+**Action:** When replacing unsemantic `<div>` tabs with native `<button>` elements, always remember to add `type="button"` explicitly to prevent the button from submitting the surrounding form, and ensure `aria-selected`, `tabindex` management, and Arrow key navigation are implemented to satisfy the standard ARIA tablist pattern.
