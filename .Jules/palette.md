@@ -1,0 +1,3 @@
+## 2024-05-24 - Accessible Tab Toggles
+**Learning:** When building custom tab-like toggle UI components, replacing `<div>` elements with native `<button type="button">` tags is crucial for proper screen reader accessibility and base focusability. To ensure a fully accessible keyboard experience, these buttons must utilize correct ARIA roles (`role="tablist"`, `role="tab"`, `aria-selected`, `aria-controls`) and implement a roving tabindex.
+**Action:** When creating or modifying tab components in the future, automatically strip default button styling and implement a roving tabindex using arrow key event listeners (with `e.preventDefault()` to stop page scrolling), ensuring seamless keyboard navigation without mouse reliance.
