@@ -1,0 +1,3 @@
+## 2024-05-24 - Semantic Form Toggle Tabs
+**Learning:** Custom toggle switches built with `<div>` elements natively ignore keyboard focus and screen reader expectations for tabbed interfaces, heavily impacting accessibility for users with disabilities navigating authentication forms.
+**Action:** When implementing custom tab toggles (like switching between Login and Signup), replace `<div>` with `<button type="button">`, strip default styling (`background: none; border: none; font-family: inherit; outline: none;`), implement a custom `:focus-visible` ring using the theme accent, and strictly enforce the `tablist`/`tab`/`tabpanel` WAI-ARIA pattern including roving `tabindex` and arrow key event listeners.
