@@ -1,0 +1,3 @@
+## 2024-09-10 - Custom Tab Toggles in Authentication Form
+**Learning:** Custom tab interactions (like those built with standard `div` elements) must manually handle complete accessibility lifecycles. Users cannot intuitively tab to and select options correctly without native `<button>` mappings, roving `tabindex`, and synced `aria-selected` roles.
+**Action:** Replace `div` toggles with semantic HTML `<button type="button">`. Strip their default styles with `background: none; border: none; font-family: inherit;` to retain aesthetics, then attach explicit `keydown` listeners (`ArrowLeft`/`ArrowRight`) coupled with `e.preventDefault()` to manage fluid custom focus navigation.
