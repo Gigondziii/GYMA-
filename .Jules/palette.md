@@ -1,0 +1,3 @@
+## 2024-11-20 - Custom Tab Toggle Accessibility
+**Learning:** Interactive custom UI elements (like tab toggles) created from non-semantic elements (like `<div>`) lack inherent keyboard accessibility and screen reader context. Users rely on ARIA roles (`tablist`, `tab`, `tabpanel`), arrow-key navigation handling with `e.preventDefault()`, and roving tabindex to navigate properly.
+**Action:** Always replace `<div>` with native `<button type="button">`, strip default styles to maintain visual design, explicitly set `:focus-visible` outlines, use ARIA tab roles with `aria-selected`, and implement arrow-key listeners coupled with roving tabindex (`0` for active, `-1` for inactive) for any custom tablist implementations.
