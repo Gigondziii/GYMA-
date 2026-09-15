@@ -1,0 +1,3 @@
+## $(date -I) - Custom Tab Components Accessibility
+**Learning:** Custom tab toggle components built with generic `<div>` elements are inherently inaccessible to keyboard and screen reader users. They lack semantic meaning, keyboard focusability, and screen reader announcements for state changes.
+**Action:** Always replace `<div>` elements with native `<button type="button">` for custom UI triggers, stripping default styles to maintain visual design while gaining native focusability. Implement ARIA roles (`tablist`, `tab`, `tabpanel`), roving `tabindex`, and keyboard arrow navigation to ensure full accessibility compliance. Add clear `:focus-visible` styles to ensure keyboard users can track their focus without disrupting mouse users.
