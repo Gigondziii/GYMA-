@@ -1,0 +1,3 @@
+## 2024-09-18 - Roving Tabindex Implementation
+**Learning:** Custom UI components like tabs mimicking radio group behaviors must have semantic HTML elements like `<button>` instead of `<div>`. While adding ARIA roles (`tablist`, `tab`) informs screen readers, they do not provide keyboard navigability out of the box. Roving `tabindex` combined with arrow-key event listeners is crucial. Furthermore, explicit focus styling (`:focus-visible`) must be implemented after stripping default button styles.
+**Action:** When implementing custom toggle/tab interfaces, always use `<button type="button">`, handle `tabindex` dynamically (0 for active, -1 for inactive), trap and handle arrow-key navigation, and ensure `:focus-visible` styling is distinct (e.g., using theme colors).
