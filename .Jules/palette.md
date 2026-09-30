@@ -1,0 +1,4 @@
+
+## 2024-05-24 - Make custom tablist keyboard accessible
+**Learning:** Custom div-based toggles/tabs used for switching content panels are invisible to screen readers and keyboard users unless specific semantics are applied. Simply changing the visual active state is not enough.
+**Action:** Replace `<div>` elements with native `<button type="button">` elements (stripping default styles), add `role="tablist"` to the container and `role="tab"` with `aria-controls` and `aria-selected` to the tabs. Apply a roving tabindex (`tabindex="0"` for active, `-1` for inactive) along with arrow key navigation handling (`nextIndex = (currentIndex + 1) % tabs.length`) to meet expected keyboard navigation patterns. Finally, ensure a clear `:focus-visible` state using the primary brand color (e.g. `#00ff41`) is defined.
