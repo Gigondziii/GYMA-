@@ -1,0 +1,3 @@
+## 2025-02-23 - Custom Tab Toggle Accessibility
+**Learning:** When building custom tab toggles by converting `<div>` elements into tabs, it's critical to use native `<button type="button">` elements to support keyboard interaction. ARIA roles (`role="tablist"`, `role="tab"`, `role="tabpanel"`) give context to screen readers, while a roving tabindex (`tabindex="0"` for active, `-1` for inactive) combined with arrow key listeners ensure users can navigate tabs efficiently without using the mouse or getting stuck navigating inactive tabs with 'Tab'.
+**Action:** Always use native `<button>` tags when building custom interactive toggles and ensure the roving tabindex pattern is implemented for keyboard accessibility.
