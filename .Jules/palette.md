@@ -1,0 +1,3 @@
+## 2024-03-24 - Accessible Tab Toggles with Roving Tabindex
+**Learning:** When converting custom `<div>` toggles to accessible `role="tab"` elements, arrow key navigation logic is critical for screen reader users expecting standard WAI-ARIA tablist behavior. Using `document.activeElement` with modulo arithmetic enables reliable wrapping across tab bounds.
+**Action:** When creating new custom UI controls (like form toggles), explicitly wrap them in a `role="tablist"` container, use native `<button>` elements styled properly with `focus-visible`, implement dynamic `aria-selected` tracking, and bind arrow key events to manipulate `.focus()` and `.click()` via a roving tabindex (`tabindex="0"` for active, `-1` for inactive).
