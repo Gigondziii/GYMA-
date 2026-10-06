@@ -1,0 +1,3 @@
+## 2024-10-06 - [Login Form Custom Toggles Accessibility]
+**Learning:** Custom UI components like form toggles (switching between "Log In" and "Sign Up") are frequently built with simple `<div>` elements and basic JavaScript click handlers, making them inaccessible to keyboard users and screen readers.
+**Action:** When encountering `<div>`-based toggles, convert them into an accessible tablist pattern. Replace `<div>` elements with native `<button type="button">`, strip default styles, apply `:focus-visible` for keyboard users, and implement a roving tabindex with arrow key navigation to align with W3C ARIA authoring practices.
