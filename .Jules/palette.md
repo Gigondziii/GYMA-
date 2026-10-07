@@ -1,0 +1,3 @@
+## 2026-10-07 - Convert div toggles to semantic, accessible tablists
+**Learning:** When changing UI toggles built with `div`s to use native `<button>`s with ARIA tab roles, it's critical to completely strip the default browser button styles (like `background`, `border`, and `font-family`) to maintain visual design while inheriting keyboard navigability. However, keyboard navigability means you must also provide explicit, clear `:focus-visible` styles (e.g. outline using brand accent colors).
+**Action:** Always test toggle buttons with keyboard (Tab/Arrow keys) to ensure focus rings are visible and roving tabindex functions as expected with screen readers.
