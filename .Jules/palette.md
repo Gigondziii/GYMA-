@@ -1,0 +1,3 @@
+## 2023-10-27 - Converting div toggle to accessible native button tabs
+**Learning:** Custom UI toggles (like div-based switchers) lack native keyboard and screen reader support. Replacing them with `<button type="button">` while adding ARIA tab roles (`role="tablist"`, `role="tab"`, `aria-selected`, `aria-controls`) and stripping default browser styling ensures full accessibility without breaking the visual design.
+**Action:** Always verify keyboard navigation logic for roving tab indexes (`tabindex="0"` and `-1`) and explicitly call `.focus()` during state transitions to keep visual focus synced.
