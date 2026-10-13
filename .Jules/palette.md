@@ -1,0 +1,3 @@
+## 2024-10-13 - Tablist A11y and Focus Navigation
+**Learning:** Div elements acting as toggle switches lack proper keyboard focus semantics. Even when using buttons, custom tablists require explicit roving `tabindex` management (0 for active, -1 for inactive) and keyboard arrow navigation listeners to correctly follow ARIA guidelines and maintain user expected standard interaction behaviors without losing focus in the document stream.
+**Action:** When implementing custom tab UI elements or replacing div-based buttons, explicitly bind native `<button type="button">`, manage ARIA roles (`role="tablist"`, `role="tab"`, `aria-selected`), and implement modulo-arithmetic based arrow key listeners alongside explicit `.focus()` sync calls.
