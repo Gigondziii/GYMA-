@@ -1,0 +1,3 @@
+## 2024-10-24 - Interactive Form Toggles Require Tablist ARIA Patterns
+**Learning:** When using visual toggle sliders that resemble tabs to switch between form views, using generic `<div>` tags with `onclick` handlers creates an inaccessible experience for screen readers and keyboard users.
+**Action:** Replace `<div>` elements with native `<button type="button">`, strip default browser styling via CSS, add `role="tablist"` to the container, and use `role="tab"`, `aria-selected`, `aria-controls`, and `tabindex` with roving focus and arrow-key navigation logic to fully support the tab UI pattern.
