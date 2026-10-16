@@ -1,0 +1,3 @@
+## 2024-10-16 - Roving Tabindex for Auth Toggles
+**Learning:** Custom UI tabs (`div` elements used as toggles) often break keyboard accessibility by lacking proper `tabindex`, `role="tab"`, and interaction behavior. Users navigating via keyboard get stuck or bypass them completely.
+**Action:** Always replace `div`-based custom tabs with native `<button type="button">` elements stripped of default styling. Implement `role="tablist"` / `role="tab"` with a roving tabindex (modifying `tabindex="0"` for active, `-1` for inactive) supported by arrow-key navigation using modulo arithmetic, and ensure `aria-selected` and focus states synchronize correctly with visual interactions.
