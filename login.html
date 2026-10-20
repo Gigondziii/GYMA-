@@ -117,10 +117,20 @@
             cursor: pointer;
             z-index: 1;
             transition: color 0.3s ease;
+            background: none;
+            border: none;
+            outline: none;
+            font-family: inherit;
         }
 
         .form-toggle-btn.active {
             color: #ffffff;
+        }
+
+        .form-toggle-btn:focus-visible {
+            outline: 2px solid #00ff41;
+            outline-offset: -2px;
+            border-radius: 100px;
         }
 
         .form-toggle-slider {
@@ -272,15 +282,15 @@
         <!-- Authentication Form Overlay -->
         <div class="auth-container">
             
-            <div class="form-toggle">
+            <div class="form-toggle" role="tablist" aria-label="Authentication mode">
                 <div class="form-toggle-slider" id="toggle-slider"></div>
-                <div class="form-toggle-btn active" id="btn-login" onclick="switchForm('login')">Log In</div>
-                <div class="form-toggle-btn" id="btn-signup" onclick="switchForm('signup')">Sign Up</div>
+                <button type="button" class="form-toggle-btn active" id="btn-login" role="tab" aria-selected="true" aria-controls="form-login" tabindex="0" onclick="switchForm('login')">Log In</button>
+                <button type="button" class="form-toggle-btn" id="btn-signup" role="tab" aria-selected="false" aria-controls="form-signup" tabindex="-1" onclick="switchForm('signup')">Sign Up</button>
             </div>
 
             <div class="form-wrapper">
                 <!-- Login Form -->
-                <form id="form-login" class="auth-form">
+                <form id="form-login" class="auth-form" role="tabpanel" aria-labelledby="btn-login">
                     <h2>Welcome Back</h2>
                     <div class="input-group">
                         <label for="login-email">Email Address</label>
@@ -295,7 +305,7 @@
                 </form>
 
                 <!-- Signup Form -->
-                <form id="form-signup" class="auth-form hidden">
+                <form id="form-signup" class="auth-form hidden" role="tabpanel" aria-labelledby="btn-signup">
                     <h2>Create Account</h2>
                     <div class="input-group">
                         <label for="signup-name">Full Name</label>
@@ -326,7 +336,7 @@
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
         // --- 2. UI Toggling Logic ---
-        function switchForm(formName) {
+        function switchForm(formName, shouldFocus = true) {
             const loginForm = document.getElementById('form-login');
             const signupForm = document.getElementById('form-signup');
             const btnLogin = document.getElementById('btn-login');
@@ -338,20 +348,53 @@
                 signupForm.classList.add('hidden');
                 btnLogin.classList.add('active');
                 btnSignup.classList.remove('active');
+                btnLogin.setAttribute('aria-selected', 'true');
+                btnSignup.setAttribute('aria-selected', 'false');
+                btnLogin.tabIndex = 0;
+                btnSignup.tabIndex = -1;
                 slider.style.transform = 'translateX(0)';
+                if (shouldFocus) btnLogin.focus();
             } else {
                 loginForm.classList.add('hidden');
                 signupForm.classList.remove('hidden');
                 btnLogin.classList.remove('active');
                 btnSignup.classList.add('active');
+                btnSignup.setAttribute('aria-selected', 'true');
+                btnLogin.setAttribute('aria-selected', 'false');
+                btnSignup.tabIndex = 0;
+                btnLogin.tabIndex = -1;
                 slider.style.transform = 'translateX(100%)';
+                if (shouldFocus) btnSignup.focus();
             }
         }
         
         // Check URL hash to pre-select sign up vs login if linked
         window.addEventListener('DOMContentLoaded', async () => {
+            const formToggle = document.querySelector('.form-toggle');
+            const tabs = Array.from(formToggle.querySelectorAll('[role="tab"]'));
+
+            formToggle.addEventListener('keydown', (e) => {
+                const currentIndex = tabs.indexOf(document.activeElement);
+                if (currentIndex === -1) return;
+
+                let nextIndex = currentIndex;
+                if (e.key === 'ArrowRight') {
+                    nextIndex = (currentIndex + 1) % tabs.length;
+                    e.preventDefault();
+                } else if (e.key === 'ArrowLeft') {
+                    nextIndex = (currentIndex - 1 + tabs.length) % tabs.length;
+                    e.preventDefault();
+                }
+
+                if (nextIndex !== currentIndex) {
+                    const nextTab = tabs[nextIndex];
+                    const formName = nextTab.id === 'btn-login' ? 'login' : 'signup';
+                    switchForm(formName);
+                }
+            });
+
             if (window.location.hash === '#signup') {
-                switchForm('signup');
+                switchForm('signup', false);
             }
 
             // ONLY auto-redirect if arriving from an email confirmation link

@@ -1,0 +1,3 @@
+## 2024-05-24 - Accessible Tab Toggles
+**Learning:** Custom UI toggles built with `<div>` elements are inaccessible by default and fail to communicate their state to screen readers. Relying solely on `click` handlers excludes keyboard users.
+**Action:** Always replace custom div-based toggles with native `<button type="button">` elements. Implement the ARIA tabs pattern by adding `role="tablist"` to the container, and `role="tab"`, `aria-selected`, `aria-controls` to the buttons. Provide keyboard navigation support by handling arrow keys and updating focus with a roving tabindex pattern (`tabindex="0"` on the active tab, `-1` on inactive tabs). Finally, ensure a clear `:focus-visible` ring is styled using brand colors.
