@@ -1,0 +1,3 @@
+## 2026-10-21 - Upgrading custom `<div>` toggles to native `<button>` tab interfaces
+**Learning:** Converting standard `<div>` elements used as interactive toggles into standard `<button>` elements equipped with proper WAI-ARIA tab semantics (`role="tab"`, `aria-selected`, `aria-controls`) significantly improves screen reader clarity. Combining this with a roving tabindex and explicit Left/Right arrow key navigation meets accessibility expectations for tablist patterns while preserving custom visual designs.
+**Action:** When identifying custom interactive widgets like `<div>` toggles, replace them with native `<button type="button">` elements, strip default styling, apply the ARIA tablist/tab pattern, and implement keyboard arrow navigation with a roving tabindex.

@@ -108,6 +108,10 @@
         }
 
         .form-toggle-btn {
+            background: none;
+            border: none;
+            font-family: inherit;
+            outline: none;
             flex: 1;
             padding: 0.8rem 0;
             text-align: center;
@@ -121,6 +125,10 @@
 
         .form-toggle-btn.active {
             color: #ffffff;
+        }
+        .form-toggle-btn:focus-visible {
+            outline: 2px solid #00ff41;
+            border-radius: 100px;
         }
 
         .form-toggle-slider {
@@ -272,15 +280,15 @@
         <!-- Authentication Form Overlay -->
         <div class="auth-container">
             
-            <div class="form-toggle">
+            <div class="form-toggle" role="tablist" aria-label="Authentication Mode">
                 <div class="form-toggle-slider" id="toggle-slider"></div>
-                <div class="form-toggle-btn active" id="btn-login" onclick="switchForm('login')">Log In</div>
-                <div class="form-toggle-btn" id="btn-signup" onclick="switchForm('signup')">Sign Up</div>
+                <button type="button" role="tab" aria-selected="true" aria-controls="form-login" tabindex="0" class="form-toggle-btn active" id="btn-login" onclick="switchForm('login'); this.focus();">Log In</button>
+                <button type="button" role="tab" aria-selected="false" aria-controls="form-signup" tabindex="-1" class="form-toggle-btn" id="btn-signup" onclick="switchForm('signup'); this.focus();">Sign Up</button>
             </div>
 
             <div class="form-wrapper">
                 <!-- Login Form -->
-                <form id="form-login" class="auth-form">
+                <form id="form-login" role="tabpanel" aria-labelledby="btn-login" class="auth-form">
                     <h2>Welcome Back</h2>
                     <div class="input-group">
                         <label for="login-email">Email Address</label>
@@ -295,7 +303,7 @@
                 </form>
 
                 <!-- Signup Form -->
-                <form id="form-signup" class="auth-form hidden">
+                <form id="form-signup" role="tabpanel" aria-labelledby="btn-signup" class="auth-form hidden">
                     <h2>Create Account</h2>
                     <div class="input-group">
                         <label for="signup-name">Full Name</label>
@@ -337,13 +345,21 @@
                 loginForm.classList.remove('hidden');
                 signupForm.classList.add('hidden');
                 btnLogin.classList.add('active');
+                btnLogin.setAttribute('aria-selected', 'true');
+                btnLogin.tabIndex = 0;
                 btnSignup.classList.remove('active');
+                btnSignup.setAttribute('aria-selected', 'false');
+                btnSignup.tabIndex = -1;
                 slider.style.transform = 'translateX(0)';
             } else {
                 loginForm.classList.add('hidden');
                 signupForm.classList.remove('hidden');
                 btnLogin.classList.remove('active');
+                btnLogin.setAttribute('aria-selected', 'false');
+                btnLogin.tabIndex = -1;
                 btnSignup.classList.add('active');
+                btnSignup.setAttribute('aria-selected', 'true');
+                btnSignup.tabIndex = 0;
                 slider.style.transform = 'translateX(100%)';
             }
         }
@@ -367,6 +383,18 @@
         // --- 3. Authentication Handlers ---
 
         // Helper to handle loading state
+        document.querySelector('.form-toggle').addEventListener('keydown', e => {
+            const tabs = [document.getElementById('btn-login'), document.getElementById('btn-signup')];
+            let idx = tabs.indexOf(document.activeElement);
+            if (idx === -1) return;
+            if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+                e.preventDefault();
+                idx = (idx + (e.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length;
+                switchForm(idx === 0 ? 'login' : 'signup');
+                tabs[idx].focus();
+            }
+        });
+
         function setLoading(btnId, isLoading, originalText) {
             const btn = document.getElementById(btnId);
             if (isLoading) {
