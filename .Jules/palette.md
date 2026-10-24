@@ -1,0 +1,3 @@
+## 2024-10-24 - Custom Tabs Accessibility
+**Learning:** Replacing `<div>` elements used as tab toggles with native `<button type="button">` elements allows for semantic meaning without accidentally triggering form submissions.
+**Action:** When implementing custom tab switches, always use native `<button>` tags with `type="button"`, append `role="tablist"`, `role="tab"`, and `role="tabpanel"`. Add an explicit `.focus()` call to the newly activated button along with dynamic `tabindex` and `aria-selected` attributes for full keyboard access and screen reader support. Arrow-key navigation using modulo arithmetic simplifies state wrap boundaries.
