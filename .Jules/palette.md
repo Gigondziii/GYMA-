@@ -1,0 +1,3 @@
+## 2023-10-25 - Custom Tab Toggles to Accessible Tabs
+**Learning:** When implementing custom toggle elements (like switching between login/signup forms), developers often use generic `<div>` elements with `onclick` handlers, breaking keyboard navigation and screen reader semantics.
+**Action:** Always upgrade these to native `<button type="button">` elements. Add `role="tablist"` to the container and `role="tab"` to the buttons. Implement the roving `tabindex` pattern (0 for active, -1 for inactive), sync the state with `aria-selected`, ensure the target content has `role="tabpanel"`, and add Arrow key navigation logic to allow full keyboard accessibility.
