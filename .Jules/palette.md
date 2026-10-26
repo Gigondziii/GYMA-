@@ -1,0 +1,3 @@
+## 2024-10-26 - Accessible Custom Tabs
+**Learning:** Custom UI tabs built with `<div>` elements lack semantic meaning and keyboard navigation. Using native `<button>` elements with ARIA roles (`tablist`, `tab`, `tabpanel`), proper focus management (`.focus()`), and a roving tabindex logic via arrow keys makes them fully accessible to screen readers and keyboard users without compromising the design.
+**Action:** Always upgrade custom tab toggles to use native `<button>` elements with `type="button"`, strip default browser styling to maintain design, and implement proper ARIA roles and arrow-key keyboard navigation logic.
