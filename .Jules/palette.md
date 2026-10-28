@@ -1,0 +1,3 @@
+## 2024-10-28 - Native Buttons and Roving Tabindex for Custom Tabs
+**Learning:** Custom UI tab controls (often built with `<div>` elements) fail keyboard accessibility requirements because they aren't natively focusable and don't declare state correctly to screen readers. Implementing a roving tabindex alongside `role="tab"` and dynamic `.focus()` calls correctly maintains keyboard state synchronized with visual state.
+**Action:** When refactoring custom tablists, explicitly convert triggers to `<button type="button">`, strip default browser button styles, and implement left/right arrow key navigation with modulo arithmetic for seamless looping.
