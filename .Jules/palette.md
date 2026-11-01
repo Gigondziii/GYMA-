@@ -1,0 +1,3 @@
+## 2024-05-24 - Accessibility improvements for custom tab toggle components
+**Learning:** Custom UI toggle components (like login/signup tabs built with divs) often lack keyboard accessibility. Even if they visually represent tabs, screen readers cannot identify them, and keyboard users cannot interact with them.
+**Action:** Always replace `<div>` buttons with semantic `<button type="button">` elements in custom tab toggles. Ensure they have `role="tablist"`, `role="tab"`, and `role="tabpanel"`. Crucially, implement a roving `tabindex` and attach arrow-key navigation so users can tab into the group, use arrows to switch, and tab out seamlessly.
