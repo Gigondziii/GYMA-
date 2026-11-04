@@ -123,6 +123,12 @@
             color: #ffffff;
         }
 
+        .form-toggle-btn:focus-visible {
+            outline: 2px solid #00ff41;
+            outline-offset: -2px;
+            border-radius: 8px;
+        }
+
         .form-toggle-slider {
             position: absolute;
             top: 0.3rem;
@@ -272,15 +278,15 @@
         <!-- Authentication Form Overlay -->
         <div class="auth-container">
             
-            <div class="form-toggle">
+            <div class="form-toggle" role="tablist" aria-label="Authentication Type">
                 <div class="form-toggle-slider" id="toggle-slider"></div>
-                <div class="form-toggle-btn active" id="btn-login" onclick="switchForm('login')">Log In</div>
-                <div class="form-toggle-btn" id="btn-signup" onclick="switchForm('signup')">Sign Up</div>
+                <button type="button" class="form-toggle-btn active" id="btn-login" role="tab" aria-selected="true" aria-controls="form-login" tabindex="0" onclick="switchForm('login')" style="background:none;border:none;font:inherit;">Log In</button>
+                <button type="button" class="form-toggle-btn" id="btn-signup" role="tab" aria-selected="false" aria-controls="form-signup" tabindex="-1" onclick="switchForm('signup')" style="background:none;border:none;font:inherit;">Sign Up</button>
             </div>
 
             <div class="form-wrapper">
                 <!-- Login Form -->
-                <form id="form-login" class="auth-form">
+                <form id="form-login" class="auth-form" role="tabpanel" aria-labelledby="btn-login">
                     <h2>Welcome Back</h2>
                     <div class="input-group">
                         <label for="login-email">Email Address</label>
@@ -295,7 +301,7 @@
                 </form>
 
                 <!-- Signup Form -->
-                <form id="form-signup" class="auth-form hidden">
+                <form id="form-signup" class="auth-form hidden" role="tabpanel" aria-labelledby="btn-signup">
                     <h2>Create Account</h2>
                     <div class="input-group">
                         <label for="signup-name">Full Name</label>
@@ -332,21 +338,32 @@
             const btnLogin = document.getElementById('btn-login');
             const btnSignup = document.getElementById('btn-signup');
             const slider = document.getElementById('toggle-slider');
+            const isLogin = formName === 'login';
 
-            if (formName === 'login') {
-                loginForm.classList.remove('hidden');
-                signupForm.classList.add('hidden');
-                btnLogin.classList.add('active');
-                btnSignup.classList.remove('active');
-                slider.style.transform = 'translateX(0)';
-            } else {
-                loginForm.classList.add('hidden');
-                signupForm.classList.remove('hidden');
-                btnLogin.classList.remove('active');
-                btnSignup.classList.add('active');
-                slider.style.transform = 'translateX(100%)';
-            }
+            loginForm.classList.toggle('hidden', !isLogin);
+            signupForm.classList.toggle('hidden', isLogin);
+            btnLogin.classList.toggle('active', isLogin);
+            btnSignup.classList.toggle('active', !isLogin);
+
+            btnLogin.setAttribute('aria-selected', isLogin);
+            btnSignup.setAttribute('aria-selected', !isLogin);
+            btnLogin.setAttribute('tabindex', isLogin ? '0' : '-1');
+            btnSignup.setAttribute('tabindex', !isLogin ? '0' : '-1');
+
+            slider.style.transform = isLogin ? 'translateX(0)' : 'translateX(100%)';
+            (isLogin ? btnLogin : btnSignup).focus();
         }
+
+        document.querySelector('.form-toggle').addEventListener('keydown', (e) => {
+            const tabs = Array.from(document.querySelectorAll('.form-toggle-btn'));
+            const idx = tabs.indexOf(document.activeElement);
+            if (idx === -1) return;
+            if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+                e.preventDefault();
+                const nextIdx = e.key === 'ArrowRight' ? (idx + 1) % tabs.length : (idx - 1 + tabs.length) % tabs.length;
+                switchForm(tabs[nextIdx].id.replace('btn-', ''));
+            }
+        });
         
         // Check URL hash to pre-select sign up vs login if linked
         window.addEventListener('DOMContentLoaded', async () => {
