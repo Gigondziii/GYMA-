@@ -1,0 +1,3 @@
+## 2024-05-24 - Accessible Authentication Form Tabs
+**Learning:** Custom `div`-based tab toggles lack semantic meaning and keyboard navigability by default, posing a barrier to screen reader users and those navigating without a mouse.
+**Action:** Always replace custom div-based tabs with native `<button type="button">` elements. Apply the roving tabindex strategy using modulo arithmetic in JavaScript for wrap-around arrow-key navigation. Use appropriate ARIA roles (`role="tablist"`, `role="tab"`, `role="tabpanel"`) and explicitly synchronize keyboard focus (`.focus()`) with the active visual state when a tab is clicked.
