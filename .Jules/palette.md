@@ -1,0 +1,3 @@
+## 2024-11-10 - Accessible Custom Tab Toggles
+**Learning:** When building custom tab toggles (like log in / sign up sliders) and replacing `div`s with `<button>` elements, implementing roving `tabindex` requires explicitly calling `.focus()` on the newly activated tab button during a mouse click event. Otherwise, the DOM focus state remains on the previously clicked element while the visual state updates, completely desynchronizing subsequent keyboard arrow navigation. Also, using `element.setAttribute('tabindex', '0')` is generally safer than direct property access.
+**Action:** When creating custom tab navigation, explicitly invoke `.focus()` within the click handler state change to keep visual and programmatic focus synchronized.
